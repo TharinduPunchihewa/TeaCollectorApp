@@ -4,7 +4,7 @@ import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static com.teaproject.teacollectorapp.common.Constent.BASE_URL;
+import static com.teaproject.teacollectorapp.common.Constant.BASE_URL;
 
 public class APIClient {
 
