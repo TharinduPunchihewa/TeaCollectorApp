@@ -3,6 +3,7 @@ package com.teaproject.teacollectorapp.acitivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
@@ -35,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button mLoginButton;
     private APIInterface apiInterface;
     private CustomProgressDialog progressDialog;
-    private CoordinatorLayout mCoordinatorLayout;
+    private ConstraintLayout constraintLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +48,7 @@ public class LoginActivity extends AppCompatActivity {
         mUsernameEditText = findViewById(R.id.et_username);
         mPasswordEditText = findViewById(R.id.et_password);
         mLoginButton = findViewById(R.id.btn_login);
-       // mCoordinatorLayout = findViewById(R.id.);
+        constraintLayout = findViewById(R.id.loginLayout);
 
         mLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,16 +108,21 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                 if (response.isSuccessful()){
                     if (response.body() !=null){
-                        if (response.body().getStatus().equals("true")){
+
+                        if (response.body().getStatus()){
+                            progressDialog.stopTimer();
                             progressDialog.dismiss();
                             startActivity(new Intent(LoginActivity.this,HomeActivity.class));
                             finish();
-                        }else if (response.body().getStatus().equals("false")){
+                        }else if (!response.body().getStatus()){
+                            Log.d(TAG,response.body().getMessage());
+                            progressDialog.stopTimer();
                             progressDialog.dismiss();
                             mUsernameEditText.getText().clear();
                             mPasswordEditText.getText().clear();
+                            mUsernameEditText.requestFocus();
                             Snackbar snackbar = Snackbar
-                                    .make(mCoordinatorLayout, "Username or Password Invalid", Snackbar.LENGTH_LONG);
+                                    .make(constraintLayout, "Username or Password Invalid", Snackbar.LENGTH_LONG);
                             snackbar.show();
                         }
                     }
