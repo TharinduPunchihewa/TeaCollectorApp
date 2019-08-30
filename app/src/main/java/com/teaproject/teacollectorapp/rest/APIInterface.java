@@ -1,7 +1,10 @@
 package com.teaproject.teacollectorapp.rest;
 
+import com.teaproject.teacollectorapp.dto.HolderList;
 import com.teaproject.teacollectorapp.dto.HolderResponse;
 import com.teaproject.teacollectorapp.dto.UserResponse;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.POST;
