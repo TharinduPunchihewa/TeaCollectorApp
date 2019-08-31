@@ -1,12 +1,11 @@
-package com.teaproject.teacollectorapp.acitivity;
+package com.teaproject.teacollectorapp.activity;
 
-import android.Manifest;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -22,9 +21,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.View;
+import android.widget.Toast;
 
 import com.teaproject.teacollectorapp.R;
 import com.teaproject.teacollectorapp.adapters.HolderAdapter;
+import com.teaproject.teacollectorapp.common.Listener;
 import com.teaproject.teacollectorapp.dto.HolderList;
 import com.teaproject.teacollectorapp.dto.HolderResponse;
 import com.teaproject.teacollectorapp.rest.APIClient;
@@ -37,12 +39,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.Manifest.permission.CALL_PHONE;
-import static android.Manifest.permission_group.CAMERA;
 
 public class HomeActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, Listener.ItemClickListener {
 
     private static final int PERMISSION_REQUEST_CODE = 200;
 
@@ -75,6 +75,13 @@ public class HomeActivity extends AppCompatActivity
         if (!checkPermission()){
             requestPermission();
         }
+
+        mRecyclerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(HomeActivity.this, "Clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -139,6 +146,7 @@ public class HomeActivity extends AppCompatActivity
         mHolderAdapter = new HolderAdapter(response, HomeActivity.this);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mHolderAdapter);
+        mHolderAdapter.setClickListener(this);
     }
 
     private void getHolderdata() {
@@ -211,6 +219,15 @@ public class HomeActivity extends AppCompatActivity
                 .setNegativeButton("Cancel", null)
                 .create()
                 .show();
+    }
+
+    @Override
+    public void onClick(View view, int position) {
+        Toast.makeText(this, responses.get(position).getUsername(), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(HomeActivity.this,DailyCollectionActivity.class);
+        intent.putExtra("collectorId",2);
+        intent.putExtra("holderId",responses.get(position).getHolderId());
+        startActivity(intent);
     }
 
 }

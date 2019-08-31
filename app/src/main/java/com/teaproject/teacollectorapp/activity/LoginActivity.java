@@ -1,10 +1,8 @@
-package com.teaproject.teacollectorapp.acitivity;
+package com.teaproject.teacollectorapp.activity;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
@@ -13,10 +11,8 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ProgressBar;
 
 import com.teaproject.teacollectorapp.R;
-import com.teaproject.teacollectorapp.common.App;
 import com.teaproject.teacollectorapp.common.Utility;
 import com.teaproject.teacollectorapp.dto.User;
 import com.teaproject.teacollectorapp.dto.UserResponse;

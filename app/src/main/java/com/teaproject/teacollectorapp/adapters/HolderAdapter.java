@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.teaproject.teacollectorapp.R;
+import com.teaproject.teacollectorapp.common.Listener;
 import com.teaproject.teacollectorapp.dto.HolderList;
 
 import java.util.List;
@@ -20,6 +21,7 @@ public class HolderAdapter extends RecyclerView.Adapter<HolderAdapter.ViewHolder
 
     private List<HolderList> holderListList;
     private Activity activity;
+    private Listener.ItemClickListener clickListener;
 
     public HolderAdapter(List<HolderList> holderListList, Activity activity) {
         this.holderListList = holderListList;
@@ -56,7 +58,11 @@ public class HolderAdapter extends RecyclerView.Adapter<HolderAdapter.ViewHolder
         return holderListList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public void setClickListener(Listener.ItemClickListener itemClickListener) {
+        this.clickListener = itemClickListener;
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         private TextView mHolderName;
         private TextView mAddress;
@@ -68,6 +74,12 @@ public class HolderAdapter extends RecyclerView.Adapter<HolderAdapter.ViewHolder
             mHolderName = itemView.findViewById(R.id.tv_holder);
             mAddress = itemView.findViewById(R.id.tv_address);
             mImageView = itemView.findViewById(R.id.iv_call);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            if (clickListener != null) clickListener.onClick(view, getAdapterPosition());
         }
     }
 }
